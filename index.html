@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR Corazón 3D</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <!-- Escena AR -->
+    <a-scene embedded arjs>
+      
+      <!-- Marcador AR -->
+      <a-marker preset="hiro">
+        <!-- Aquí va tu modelo -->
+        <a-entity 
+          gltf-model="killjoys_turret.glb" 
+          scale="0.5 0.5 0.5" 
+          position="0 0 0">
+        </a-entity>
+      </a-marker>
+
+      <!-- Cámara -->
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
