@@ -4,23 +4,24 @@
     <title>AR 3D</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.min.js"></script>
-    <!-- Controles de órbita para mover en todas direcciones-->
+    <!-- Controles de órbita -->
     <script src="https://unpkg.com/aframe-orbit-controls-component@0.1.20/dist/aframe-orbit-controls-component.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
       
-      <!-- Marcador y modelo-->
+      <!-- Marcador con modelo -->
       <a-marker preset="hiro">
         <a-entity 
           id="modelo"
           gltf-model="killjoys_turret.glb" 
           scale="0.01 0.01 0.01" 
-          position="0 0.2 0">
+          position="0 0.2 0"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
         </a-entity>
       </a-marker>
 
-      <!-- Cámara con orbit-controls apuntando al modelo -->
+      <!-- Cámara con orbit-controls -->
       <a-entity 
         camera 
         look-controls="enabled: false" 
@@ -32,5 +33,37 @@
           autoRotate: false;">
       </a-entity>
     </a-scene>
+
+    <!-- Script para pausar animación al tocar y reanudar al soltar -->
+    <script>
+      const modelo = document.querySelector('#modelo');
+      const scene = document.querySelector('a-scene');
+
+      let userInteracting = false;
+
+      // Cuando el usuario interactúa (toca o mueve el mouse)
+      scene.addEventListener('mousedown', () => {
+        userInteracting = true;
+        modelo.removeAttribute('animation'); // detener rotación automática
+      });
+      scene.addEventListener('touchstart', () => {
+        userInteracting = true;
+        modelo.removeAttribute('animation');
+      });
+
+      // Cuando deja de interactuar
+      scene.addEventListener('mouseup', () => {
+        if (userInteracting) {
+          userInteracting = false;
+          modelo.setAttribute('animation', 'property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear');
+        }
+      });
+      scene.addEventListener('touchend', () => {
+        if (userInteracting) {
+          userInteracting = false;
+          modelo.setAttribute('animation', 'property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear');
+        }
+      });
+    </script>
   </body>
 </html>
